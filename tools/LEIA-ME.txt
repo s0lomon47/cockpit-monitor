@@ -1,0 +1,1 @@
+O PresentMon (medidor de FPS) e baixado aqui automaticamente pelo build_exe.bat.

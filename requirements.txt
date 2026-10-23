@@ -1,0 +1,3 @@
+PySide6-Essentials>=6.5
+pythonnet>=3.0; sys_platform == "win32"
+psutil>=5.9; sys_platform != "win32"
