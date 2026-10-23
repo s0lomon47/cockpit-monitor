@@ -39,9 +39,10 @@ from functools import partial
 from pathlib import Path
 from xml.sax.saxutils import escape
 
-from PySide6.QtCore import (QElapsedTimer, QEvent, QObject, QPointF, QRect, QRectF, Qt,
+from PySide6.QtCore import (QUrl, QElapsedTimer, QEvent, QObject, QPointF, QRect, QRectF, Qt,
                             QTimer, Signal)
-from PySide6.QtGui import (QColor, QFont, QFontDatabase, QGuiApplication, QIcon, QLinearGradient,
+from PySide6.QtGui import (QColor, QDesktopServices, QFont, QFontDatabase, QGuiApplication, QIcon,
+                           QLinearGradient,
                            QPainter, QPalette, QPen, QPixmap, QPolygonF, QRadialGradient)
 from PySide6.QtNetwork import QLocalServer, QLocalSocket
 from PySide6.QtWidgets import (QApplication, QCheckBox, QColorDialog, QComboBox,
@@ -52,6 +53,9 @@ from PySide6.QtWidgets import (QApplication, QCheckBox, QColorDialog, QComboBox,
 
 IS_WIN = os.name == "nt"
 APP_NAME = "CockpitMonitor"
+APP_VERSION = "1.0"
+REPO_URL = "https://github.com/s0lomon47/cockpit-monitor"
+DONATE_URL = "https://livepix.gg/n0rdico"
 CONFIG_DIR = Path(os.environ.get("APPDATA") or Path.home() / ".config") / APP_NAME
 CONFIG_FILE = CONFIG_DIR / "config.json"
 LOG_FILE = CONFIG_DIR / "cockpit.log"
@@ -1982,6 +1986,7 @@ class SettingsDialog(QDialog):
         tabs.addTab(self._tab_alerts(), "Alertas")
         tabs.addTab(self._tab_notify(), "Notificações")
         tabs.addTab(self._tab_general(), "Geral")
+        tabs.addTab(self._tab_about(), "Sobre")
         bb = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel | QDialogButtonBox.Apply)
         bb.button(QDialogButtonBox.Ok).setText("OK")
         bb.button(QDialogButtonBox.Cancel).setText("Cancelar")
@@ -2204,6 +2209,46 @@ class SettingsDialog(QDialog):
         g.addWidget(self.gsize, 6, 1)
         g.setRowStretch(11, 1)
         g.setColumnStretch(2, 1)
+        return w
+
+    def _tab_about(self):
+        w = QWidget()
+        v = QVBoxLayout(w)
+        v.setSpacing(10)
+        top = QHBoxLayout()
+        logo = QLabel()
+        dpr = self.devicePixelRatioF() or 1.0
+        pm = self.ctrl.logo_pixmap(round(72 * dpr))
+        pm.setDevicePixelRatio(dpr)
+        logo.setPixmap(pm)
+        top.addWidget(logo)
+        info = QLabel(f"<b style='font-size:18px'>Cockpit Monitor</b><br>"
+                      f"<span style='color:#8a95a1'>versão {APP_VERSION} · software livre (licença MIT)</span>")
+        top.addWidget(info, 1)
+        v.addLayout(top)
+        txt = QLabel("Gostou do programa? Você pode apoiar o desenvolvimento, sugerir novidades "
+                     "ou avisar se algo não funcionar. Toda ajuda faz diferença!")
+        txt.setWordWrap(True)
+        v.addWidget(txt)
+
+        def link_btn(text, url, primary=False):
+            b = QPushButton(text)
+            b.setCursor(Qt.PointingHandCursor)
+            b.setMinimumHeight(36)
+            if primary:
+                b.setStyleSheet("QPushButton { background:#d98a00; color:#1a1205; font-weight:bold;"
+                                " border:1px solid #000; border-radius:4px; }"
+                                "QPushButton:hover { background:#f0a020; }")
+            b.clicked.connect(lambda: QDesktopServices.openUrl(QUrl(url)))
+            return b
+        v.addWidget(link_btn("☕  Apoiar o projeto (Pix via LivePix)", DONATE_URL, primary=True))
+        v.addWidget(link_btn("💡  Sugerir uma melhoria", REPO_URL + "/issues/new?template=ideia.yml"))
+        v.addWidget(link_btn("🐞  Relatar um problema", REPO_URL + "/issues/new?template=bug.yml"))
+        v.addWidget(link_btn("⭐  Ver o projeto no GitHub", REPO_URL))
+        v.addStretch(1)
+        foot = QLabel("Sensores: LibreHardwareMonitor · FPS: PresentMon (Intel) · Interface: Qt")
+        foot.setStyleSheet("color:#8a95a1;")
+        v.addWidget(foot)
         return w
 
     def _tab_notify(self):

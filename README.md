@@ -14,6 +14,7 @@
   <img alt="Qt" src="https://img.shields.io/badge/PySide6-Qt%206-41CD52?logo=qt&logoColor=white">
   <img alt="Windows" src="https://img.shields.io/badge/Windows-10%20%7C%2011-0078D6?logo=windows&logoColor=white">
   <img alt="Licença" src="https://img.shields.io/badge/licen%C3%A7a-MIT-informational">
+  <a href="https://livepix.gg/n0rdico"><img alt="Apoie via Pix" src="https://img.shields.io/badge/apoie-Pix%20%E2%98%95-d98a00"></a>
 </p>
 
 <p align="center">
@@ -143,6 +144,22 @@ installer.iss         script do instalador (Inno Setup)
 fonts/                fontes do painel (Rajdhani e Share Tech Mono, licença OFL)
 docs/                 imagens deste README
 ```
+
+## 💡 Sugestões e problemas
+
+Tem uma ideia ou encontrou um bug? O próprio app tem esses atalhos em **Configurações → Sobre**.
+
+- [**Sugerir uma melhoria**](../../issues/new?template=ideia.yml)
+- [**Relatar um problema**](../../issues/new?template=bug.yml)
+
+## ☕ Apoie o projeto
+
+Se o Cockpit Monitor te ajudou, considere apoiar o desenvolvimento:
+
+<p>
+  <a href="https://livepix.gg/n0rdico"><b>➜ Doar via Pix (LivePix)</b></a>
+  &nbsp;·&nbsp; ou deixe uma ⭐ no repositório, que também ajuda muito!
+</p>
 
 ## Créditos e licenças
 
